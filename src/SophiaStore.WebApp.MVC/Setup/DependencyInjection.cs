@@ -40,7 +40,7 @@ namespace SophiaStore.WebApp.MVC.Setup
 
             services.AddScoped<INotificationHandler<ProductLowStockEvent>, ProductEventHandler>();
         }
-
+         
         private static void RegisterNotification(IServiceCollection services)
         {
             services.AddScoped<INotificationHandler<DomainNotification>, DomainNotificationHandler>();
