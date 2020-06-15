@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>aspnet-SophiaStore.WebApp.MVC-B79D3F0F-00DE-45B8-856E-17BE99CD2354</UserSecretsId>
+    <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
+    <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="Mediatr.Extensions.Microsoft.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.4" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SophiaStore.Catalog.Application\SophiaStore.Catalog.Application.csproj" />
+    <ProjectReference Include="..\SophiaStore.Catalog.Core\SophiaStore.Core.csproj" />
+    <ProjectReference Include="..\SophiaStore.Catalog.Data\SophiaStore.Catalog.Data.csproj" />
+    <ProjectReference Include="..\SophiaStore.Catalog.Domain\SophiaStore.Catalog.Domain.csproj" />
+    <ProjectReference Include="..\SophiaStore.Sales.Application\SophiaStore.Sales.Application.csproj" />
+    <ProjectReference Include="..\SophiaStore.Sales.Data\SophiaStore.Sales.Data.csproj" />
+    <ProjectReference Include="..\SophiaStore.Sales.Domain\SophiaStore.Sales.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\AdminProduct\" />
+    <Folder Include="Views\Showcase\" />
+  </ItemGroup>
+
+</Project>

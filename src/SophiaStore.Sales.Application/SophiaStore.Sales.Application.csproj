@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SophiaStore.Catalog.Core\SophiaStore.Core.csproj" />
+    <ProjectReference Include="..\SophiaStore.Sales.Domain\SophiaStore.Sales.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
