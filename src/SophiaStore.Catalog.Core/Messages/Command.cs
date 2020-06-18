@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using FluentValidation.Results;
 using MediatR;
 
@@ -17,9 +15,6 @@ namespace SophiaStore.Core.Messages
             Timestamp = timestamp;
         }
 
-        public virtual bool IsValid()
-        {
-            throw new NotImplementedException();
-        }
+        public abstract bool IsValid();
     }
 }

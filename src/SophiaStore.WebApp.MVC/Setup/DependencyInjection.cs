@@ -50,13 +50,28 @@ namespace SophiaStore.WebApp.MVC.Setup
         private static void RegisterSales(IServiceCollection services)
         {
             services.AddScoped<SaleContext>();
-            services.AddScoped<IRequestHandler<AddOrderItemCommand, bool>, OrderCommandHandler>();
+
+            services.AddScoped<IRequestHandler<AddOrderItemCommand, bool>, AddOrderItemCommandHandler>();
+            services.AddScoped<IRequestHandler<ApplyVoucherOrderCommand, bool>, ApplyVoucherOrderCommandHandler>();
+            services.AddScoped<IRequestHandler<CancelProcessOrderReverseStockCommand, bool>, CancelProcessOrderReverseStockCommandHandler>();
+            services.AddScoped<IRequestHandler<CancelProcessOrderCommand, bool>, CancelProcessOrderCommandHandler>();
+            services.AddScoped<IRequestHandler<FinishOrderCommand, bool>, FinishOrderCommandHandler>();
+            services.AddScoped<IRequestHandler<RemoverOrderItemCommand, bool>, RemoverOrderItemCommandHandler>();
+            services.AddScoped<IRequestHandler<StartOrderCommand, bool>, StartOrderCommandHandler>();
+            services.AddScoped<IRequestHandler<UpdateOrderItemCommand, bool>, UpdateOrderItemCommandHandler>();
+
+
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IOrderQueries, OrderQueries>();
 
-            services.AddScoped<INotificationHandler<InitialDraftOrderEvent>, OrderEventHandler>();
-            services.AddScoped<INotificationHandler<UpdateOrderEvent>, OrderEventHandler>();
-            services.AddScoped<INotificationHandler<AddOrderItemEvent>, OrderEventHandler>();
+            services.AddScoped<INotificationHandler<DraftOrderInitialEvent>, DraftOrderInitialEventHandler>();
+            services.AddScoped<INotificationHandler<OrderUpdatedEvent>, OrderUpdatedEventHandler>();
+            services.AddScoped<INotificationHandler<OrderFinishedEvent>, OrderFinishedEventHandler>();
+            services.AddScoped<INotificationHandler<OrderItemAddedEvent>, OrderItemAddedEventHandler>();
+            services.AddScoped<INotificationHandler<OrderItemRemovedEvent>, OrderItemRemovedEventHandler>();
+            services.AddScoped<INotificationHandler<OrderItemUpdatedEvent>, OrderItemUpdatedEventHandler>();
+            services.AddScoped<INotificationHandler<OrderItemAddedEvent>, OrderItemAddedEventHandler>();
+            services.AddScoped<INotificationHandler<OrderVoucherAppliedEvent>, OrderVoucherAppliedEventHandler>();
         }
     }
 }

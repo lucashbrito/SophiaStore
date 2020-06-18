@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using FluentValidation.Results;
 using SophiaStore.Core.DomainObjects;
 
 namespace SophiaStore.Sales.Domain
@@ -43,9 +44,21 @@ namespace SophiaStore.Sales.Domain
             CalculateDiscountTotalValue();
         }
 
-        public bool OrdemItemExsitent(OrderItem item)
+        public bool OrderItemExistent(OrderItem item)
         {
             return _orderItems.Any(p => p.ProductId == item.ProductId);
+        }
+
+        public ValidationResult ApplyVoucher(Voucher voucher)
+        {
+            var validationResult = voucher.IsVoucherValid();
+            if (!validationResult.IsValid) return validationResult;
+
+            Voucher = voucher;
+            VoucherUpdated = true;
+            CalculateOrderValue();
+
+            return validationResult;
         }
 
         public void AddOrderItem(OrderItem orderItem)
@@ -54,7 +67,7 @@ namespace SophiaStore.Sales.Domain
 
             orderItem.SetOrder(Id);
 
-            if (OrdemItemExsitent(orderItem))
+            if (OrderItemExistent(orderItem))
             {
                 var existentOrderItem = _orderItems.FirstOrDefault(p => p.ProductId == orderItem.ProductId);
                 existentOrderItem.AddUnit(existentOrderItem.Quantity);

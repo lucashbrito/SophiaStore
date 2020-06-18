@@ -13,13 +13,12 @@ using SophiaStore.Sales.Domain;
 
 namespace SophiaStore.Sales.Application.Commands
 {
-    public class OrderCommandHandler : IRequestHandler<AddOrderItemCommand, bool>
+    public class AddOrderItemCommandHandler : BaseCommandHandler, IRequestHandler<AddOrderItemCommand, bool>
     {
         private readonly IOrderRepository _orderRepository;
-        private readonly IMediatorHandler _mediatorHandler;
-        public OrderCommandHandler(IOrderRepository orderRepository, MediatorHandler mediatorHandler)
+        public AddOrderItemCommandHandler(IOrderRepository orderRepository, MediatorHandler mediatorHandler)
+        :base(mediatorHandler)
         {
-            _mediatorHandler = mediatorHandler;
             _orderRepository = orderRepository;
         }
 
@@ -36,11 +35,11 @@ namespace SophiaStore.Sales.Application.Commands
                 order.AddOrderItem(orderItem);
 
                 _orderRepository.Add(order);
-                order.AddEvent(new InitialDraftOrderEvent(request.ClientId, request.ProductId));
+                order.AddEvent(new DraftOrderInitialEvent(request.ClientId, request.ProductId));
             }
             else
             {
-                var existentOrderItem = order.OrdemItemExsitent(orderItem);
+                var existentOrderItem = order.OrderItemExistent(orderItem);
                 order.AddOrderItem(orderItem);
 
                 if (existentOrderItem)
@@ -52,23 +51,11 @@ namespace SophiaStore.Sales.Application.Commands
                     _orderRepository.AddOrderItem(orderItem);
                 }
 
-                order.AddEvent(new UpdateOrderEvent(order.ClientId, order.Id, order.TotalValue));
+                order.AddEvent(new OrderUpdatedEvent(order.ClientId, order.Id, order.TotalValue));
             }
 
-            order.AddEvent(new AddOrderItemEvent(order.ClientId, order.Id, request.ProductId, request.Value, request.Quantity));
+            order.AddEvent(new OrderItemAddedEvent(order.ClientId, order.Id, request.ProductId, request.Value, request.Quantity));
             return await _orderRepository.UnitOfWork.Commit();
-        }
-
-        private bool CheckCommand(Command request)
-        {
-            if (request.IsValid()) return true;
-
-            foreach (var validationResultError in request.ValidationResult.Errors)
-            {
-                _mediatorHandler.PostNotification(new DomainNotification(request.AggregateId.ToString(), validationResultError.ErrorMessage));
-            }
-
-            return false;
         }
     }
 }
